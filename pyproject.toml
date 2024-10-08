@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reform"
+dynamic = ["version"]
+authors = [
+  { name="José Arce", email="arceyd@cs.uni-freiburg.de" },
+]
+description = "Small package for dealing with transformations of 3D objects"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+]
+
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "scipy",
+]
+
+[project.urls]
+Homepage = "https://github.com/joseab10/reform"
+Issues = "https://github.com/joseab10/refom/issues"
+
+[tool.hatch.version]
+path = "reform/__init__.py"
