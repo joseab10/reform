@@ -1,3 +1,13 @@
+"""Reference Frame Module.
+
+#======================================================================#
+#                                                                      #
+# Module containing the class for defining reference frames.           #
+#                                                                      #
+#                                                             JAB 2024 #
+#======================================================================#
+"""
+
 from __future__ import annotations
 
 __all__ = [
@@ -9,10 +19,11 @@ from typing import Any
 
 
 class ReferenceFrameError(RuntimeError):
-    pass
+    """Exception used for mismatched reference frames."""
 
 
 class ReferenceFrame:
+    """Class for defining reference frames."""
     
     FRAME_SEP = ", "
 
@@ -21,6 +32,15 @@ class ReferenceFrame:
         frame: str | None,
         time: Any | None = None
     ):
+        """Constructor.
+
+        Args:
+            frame (str | None):
+                Spatial name of the frame.
+            time (Any | None): Defaults to None.
+                Temporal stamp of the frame.
+        """
+
         self._frame = frame
         self._time = time
     
@@ -28,12 +48,16 @@ class ReferenceFrame:
     def frame(
         self,
     ) -> str:
+        """Returns the spatial name of the frame."""
+
         return self._frame
     
     @property
     def time(
         self,
     ) -> Any | None:
+        """Returns the temporal stamp of the frame."""
+
         return self._time
     
     def __eq__(
@@ -46,6 +70,8 @@ class ReferenceFrame:
     def name(
         self,
     ) -> str:
+        """Returns the name of the reference frame."""
+        
         frame = self._frame if self._frame is not None else ""
         time = self._time if self._time is not None else ""
         printable = frame or time

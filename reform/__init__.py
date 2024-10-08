@@ -1,5 +1,11 @@
-"""
-Reform Package.
+"""ReForm Package.
+
+#======================================================================#
+#                                                                      #
+# Package for 3D Spatial Transformations with reference frames.        #
+#                                                                      #
+#                                                             JAB 2024 #
+#======================================================================#
 """
 
 __version__ = "0.1.0"
