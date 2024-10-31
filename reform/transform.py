@@ -79,6 +79,36 @@ class Transform:
         self._name = name
         self._frame_from = frame_from
         self._frame_to = frame_to
+    
+    @classmethod
+    def identity(
+        *,
+        name: str = "T",
+        frame_from: ReferenceFrame | None = None,
+        frame_to: ReferenceFrame | None = None,
+    ) -> Transform:
+        """Creates an identity transformation.
+
+        Args:
+            name (str): Defaults to "T".
+                Name of the transformation. Used for printing.
+            frame_from (ReferenceFrame | None): Defaults to None.
+                Reference frame of the transformation origin.
+            frame_to (ReferenceFrame | None): Defaults to None.
+                Reference frame of the transformation target.
+
+        Returns:
+            Transform:
+                Identity transformation.
+        """
+
+        return Transform(
+            position=np.zeros(3),
+            orientation=Rotation.identity(),
+            name=name,
+            frame_from=frame_from,
+            frame_to=frame_to,
+        )
 
     @classmethod
     def from_matrix(
