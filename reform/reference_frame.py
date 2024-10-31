@@ -88,3 +88,8 @@ class ReferenceFrame:
         self,
     ) -> str:
         return f"ReferenceFrame({self.name})"
+    
+    def __hash__(
+        self,
+    ) -> int:
+        return hash((self._frame, self._time))
