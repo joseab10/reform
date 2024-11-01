@@ -35,7 +35,7 @@ class TransformGraph:
                 List of transforms to build the graph.
         """
 
-        self.frames = defaultdict(dict)
+        self._frames = defaultdict(dict)
         if transforms is not None:
             self.add_links(transforms)
     
@@ -54,8 +54,8 @@ class TransformGraph:
                 Link to be added to the graph.
         """
 
-        self.frames[transform.frame_from][transform.frame_to] = transform
-        self.frames[transform.frame_to][transform.frame_from] = transform.inv
+        self._frames[transform.frame_from][transform.frame_to] = transform
+        self._frames[transform.frame_to][transform.frame_from] = transform.inv
     
     def add_links(
             self,
@@ -109,7 +109,7 @@ class TransformGraph:
                     tmp_frame = visited[tmp_frame]
                 return path[::-1]
             
-            for child_frame in self.frames[tmp_frame]:
+            for child_frame in self._frames[tmp_frame]:
                 if child_frame not in visited:
                     visited[child_frame] = tmp_frame
                     queue.append(child_frame)
@@ -142,10 +142,10 @@ class TransformGraph:
         if frame_from == frame_to:
             return path
         
-        if frame_from not in self.frames:
+        if frame_from not in self._frames:
             return
         
-        for frame in self.frames[frame_from]:
+        for frame in self._frames[frame_from]:
             if frame not in path:
                 new_path = self.find_path(frame, frame_to, path)
                 if new_path:
@@ -207,6 +207,6 @@ class TransformGraph:
         
         transform = Transform.identity(frame_from=frame_from, frame_to=frame_from)
         for i in range(len(path) - 1):
-            transform = self.frames[path[i]][path[i + 1]] @ transform
+            transform = self._frames[path[i]][path[i + 1]] @ transform
         
         return transform
