@@ -29,19 +29,26 @@ class ReferenceFrame:
 
     def __init__(
         self,
-        frame: str | None,
-        time: Any | None = None
+        frame: str,
+        time: Any | None = None,
+        *,
+        shortframe: str | None = None,
     ):
         """Constructor.
 
         Args:
-            frame (str | None):
+            frame (str):
                 Spatial name of the frame.
             time (Any | None): Defaults to None.
                 Temporal stamp of the frame.
+            shortframe (str | None): Defaults to None.
+                Short name for the spatial name of the frame for representation.
+                If None, then the first letter of the frame is used.
         """
 
         self._frame = frame
+        self._shortframe = shortframe if shortframe is not None else (
+            frame[0] if frame is not None else None)
         self._time = time
     
     @property
@@ -51,6 +58,14 @@ class ReferenceFrame:
         """Returns the spatial name of the frame."""
 
         return self._frame
+
+    @property
+    def shortframe(
+        self
+    ) -> str:
+        """Returns the short spatial name of the frame."""
+
+        return self._shortframe
     
     @property
     def time(
@@ -60,25 +75,25 @@ class ReferenceFrame:
 
         return self._time
     
-    def __eq__(
-        self,
-        other: 'ReferenceFrame',
-    ) -> bool:
-        return self._frame == other.frame and self._time == other.time
-    
     @property
     def name(
         self,
     ) -> str:
         """Returns the name of the reference frame."""
         
-        frame = self._frame if self._frame is not None else ""
+        frame = self._shortframe if self._shortframe is not None else ""
         time = self._time if self._time is not None else ""
         printable = frame or time
         sep = self.FRAME_SEP if frame and time else ""
         rep = f"({frame}{sep}{time})" if printable else ""
         return rep
-
+    
+    def __eq__(
+        self,
+        other: 'ReferenceFrame',
+    ) -> bool:
+        return self._frame == other.frame and self._time == other.time
+    
     def __str__(
         self,
     ) -> str:
@@ -87,7 +102,7 @@ class ReferenceFrame:
     def __repr__(
         self,
     ) -> str:
-        return f"ReferenceFrame({self.name})"
+        return f"RF({self.name})"
     
     def __hash__(
         self,

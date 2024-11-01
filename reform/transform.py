@@ -283,10 +283,10 @@ class Transform:
         
         rep = self._name
         if self._frame_from:
-            rep = f"{rep}{self.FRAME_FROM_SEP}{self._frame_from}"
+            rep = f"{rep}{self.FRAME_FROM_SEP}{self._frame_from.shortframe}"
         
         if self._frame_to.name:
-            rep = f"{self._frame_to}{self.FRAME_TO_SEP}{rep}"
+            rep = f"{self._frame_to.shortframe}{self.FRAME_TO_SEP}{rep}"
 
         return rep
 
@@ -294,7 +294,7 @@ class Transform:
         self,
     ) -> str:
         orientation = self._orientation.as_rotvec()
-        return f"Transform {self.fullname}: {self.position}, {orientation}"
+        return f"TF({self.fullname}: {self.position}, {orientation})"
     
     def __str__(
             self,

@@ -99,7 +99,7 @@ class Points:
         """
         
         if self._frame.name:
-            return f"{self._frame.name}{self.FRAME_SEP}{self.name}"
+            return f"{self._frame.shortframe}{self.FRAME_SEP}{self.name}"
         
         return self.name
 
