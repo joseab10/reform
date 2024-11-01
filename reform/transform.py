@@ -82,6 +82,7 @@ class Transform:
     
     @classmethod
     def identity(
+        cls,
         *,
         name: str = "T",
         frame_from: ReferenceFrame | None = None,
@@ -102,7 +103,7 @@ class Transform:
                 Identity transformation.
         """
 
-        return Transform(
+        return cls(
             position=np.zeros(3),
             orientation=Rotation.identity(),
             name=name,
