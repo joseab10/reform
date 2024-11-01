@@ -102,7 +102,7 @@ class ReferenceFrame:
     def __repr__(
         self,
     ) -> str:
-        return f"RF({self.name})"
+        return f"RF{self.name}"
     
     def __hash__(
         self,
