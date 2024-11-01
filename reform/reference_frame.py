@@ -2,7 +2,7 @@
 
 #======================================================================#
 #                                                                      #
-# Module containing the class for defining reference frames.           #
+# Module containing the class for defining reference frames.            #
 #                                                                      #
 #                                                             JAB 2024 #
 #======================================================================#

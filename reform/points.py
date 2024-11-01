@@ -2,7 +2,7 @@
 
 #======================================================================#
 #                                                                      #
-# Module containing the class for defining sets of 3D points.          #
+# Module containing the class for defining sets of 3D points.           #
 #                                                                      #
 #                                                             JAB 2024 #
 #======================================================================#

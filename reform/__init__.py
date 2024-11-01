@@ -15,9 +15,11 @@ __all__ = [
     "ReferenceFrame",
     "ReferenceFrameError",
     "Transform",
+    "TransformGraph"
 ]
 
 
 from .points import Points
 from .reference_frame import ReferenceFrame, ReferenceFrameError
 from .transform import Transform
+from .transform_graph import TransformGraph

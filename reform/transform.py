@@ -2,7 +2,7 @@
 
 #======================================================================#
 #                                                                      #
-# Module containing the class for defining 3D Spatial Transformations. #
+# Module containing the class for defining 3D Spatial Transformations.  #
 #                                                                      #
 #                                                             JAB 2024 #
 #======================================================================#
