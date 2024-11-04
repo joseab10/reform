@@ -205,8 +205,11 @@ class TransformGraph:
         if path is None:
             return
         
-        transform = Transform.identity(frame_from=frame_from, frame_to=frame_from)
+        transform = Transform.identity(
+            frame_from=frame_from,
+            frame_to=frame_from
+        )
         for i in range(len(path) - 1):
-            transform = self._frames[path[i]][path[i + 1]] @ transform
+            transform = transform @ self._frames[path[i + 1]][path[i]]
         
         return transform
