@@ -179,6 +179,9 @@ class TransformGraph:
                 if a path exists.
         """
 
+        if frame_to is None:
+            frame_to = self.root_frame
+
         if method == "bfs":
             return self._find_path_bfs(
                 frame_from=frame_from,
