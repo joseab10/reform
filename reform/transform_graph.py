@@ -26,18 +26,30 @@ class TransformGraph:
 
     def __init__(
             self,
+            root_frame: ReferenceFrame,
             transforms: list[Transform] | None,
     ):
         """Constructor.
         
         Args:
+            root_frame (ReferenceFrame):
+                Reference frame to be used as the root of the graph.
             transforms (list[Transform] | None): Defaults to None.
                 List of transforms to build the graph.
         """
 
+        self._root_frame = root_frame
         self._tf_dict = defaultdict(dict)
         if transforms is not None:
             self.add_links(transforms)
+
+    @property
+    def root_frame(
+        self,
+    ) -> ReferenceFrame:
+        """Returns the root frame of the graph."""
+        
+        return self._root_frame
     
     def add_link(
             self,
@@ -80,8 +92,11 @@ class TransformGraph:
             self,
         ) -> list[ReferenceFrame]:
         """Returns the reference frames."""
+
+        rf = set(self._tf_dict.keys())
+        rf.remove(self.root_frame)
         
-        return list(self._tf_dict.keys())
+        return rf
     
     def _find_path_bfs(
             self,
