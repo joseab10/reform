@@ -100,6 +100,7 @@ class TransformGraph:
     
     def _find_path_bfs(
             self,
+            *,
             frame_from: ReferenceFrame,
             frame_to: ReferenceFrame | None = None,
     ) -> list[ReferenceFrame] | None:
@@ -125,6 +126,7 @@ class TransformGraph:
 
     def _find_path_dfs(
         self,
+        *,
         frame_from: ReferenceFrame,
         frame_to: ReferenceFrame | None = None,
         path: list[ReferenceFrame] | None = None,
@@ -143,7 +145,11 @@ class TransformGraph:
         
         for frame in self._tf_dict[frame_from]:
             if frame not in path:
-                new_path = self.find_path(frame, frame_to, path)
+                new_path = self._find_path_dfs(
+                    frame_from=frame,
+                    frame_to=frame_to,
+                    path=path
+                )
                 if new_path:
                     return new_path
     
@@ -174,10 +180,16 @@ class TransformGraph:
         """
 
         if method == "bfs":
-            return self._find_path_bfs(frame_from, frame_to)
+            return self._find_path_bfs(
+                frame_from=frame_from,
+                frame_to=frame_to
+            )
         
         if method == "dfs":
-            return self._find_path_dfs(frame_from, frame_to)
+            return self._find_path_dfs(
+                frame_from=frame_from,
+                frame_to=frame_to
+            )
         
         raise ValueError(f"Invalid method {method}.")
     
@@ -204,7 +216,10 @@ class TransformGraph:
         if frame_to is None:
             frame_to = self.root_frame
         
-        path = self.find_path(frame_from, frame_to)
+        path = self.find_path(
+            frame_from=frame_from,
+            frame_to=frame_to
+        )
         if path is None:
             return
         
