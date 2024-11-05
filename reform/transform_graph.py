@@ -231,6 +231,6 @@ class TransformGraph:
             frame_to=frame_from
         )
         for i in range(len(path) - 1):
-            transform = transform @ self._tf_dict[path[i + 1]][path[i]]
+            transform = self._tf_dict[path[i]][path[i + 1]] @ transform
         
         return transform
