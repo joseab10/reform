@@ -101,7 +101,7 @@ class TransformGraph:
     def _find_path_bfs(
             self,
             frame_from: ReferenceFrame,
-            frame_to: ReferenceFrame,
+            frame_to: ReferenceFrame | None = None,
     ) -> list[ReferenceFrame] | None:
 
         visited = {frame_from: None}
@@ -126,7 +126,7 @@ class TransformGraph:
     def _find_path_dfs(
         self,
         frame_from: ReferenceFrame,
-        frame_to: ReferenceFrame,
+        frame_to: ReferenceFrame | None = None,
         path: list[ReferenceFrame] | None = None,
     ) -> list[ReferenceFrame] | None:
 
@@ -149,8 +149,9 @@ class TransformGraph:
     
     def find_path(
             self,
+            *,
             frame_from: ReferenceFrame,
-            frame_to: ReferenceFrame,
+            frame_to: ReferenceFrame | None = None,
             method: str = "bfs"
     ) -> list[ReferenceFrame] | None:
         """Finds a path between two frames.
@@ -158,8 +159,9 @@ class TransformGraph:
         Args:
             frame_from (ReferenceFrame):
                 Starting frame to begin the search from.
-            frame_to (ReferenceFrame):
+            frame_to (ReferenceFrame | None): Defaults to None.
                 Target frame to find a path to.
+                If None, then the root frame is used
             method (str): Defaults to "bfs".
                 Method to use for the graph search.
                 Supported: "bfs" and "dfs" for breadth and depth
@@ -181,22 +183,27 @@ class TransformGraph:
     
     def find_transform(
             self,
+            *,
             frame_from: ReferenceFrame,
-            frame_to: ReferenceFrame,
+            frame_to: ReferenceFrame | None = None,
     ) -> Transform | None:
         """Finds the relative transform between two frames.
         
         Args:
             frame_from (ReferenceFrame):
                 Starting frame to begin the search from.
-            frame_to (ReferenceFrame):
+            frame_to (ReferenceFrame | None): Defaults to None.
                 Target frame to find a transform to.
+                If None, then the root frame is used
         
         Returns:
             path (Transform | None):
                 Relative transformation between frame_from and frame_to
                 if a path exists.
         """
+        if frame_to is None:
+            frame_to = self.root_frame
+        
         path = self.find_path(frame_from, frame_to)
         if path is None:
             return
