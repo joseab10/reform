@@ -182,6 +182,57 @@ class Transform:
             frame_from=frame_from,
             frame_to=frame_to,
         )
+    
+    @classmethod
+    def from_se3(
+            cls,
+            qwxyz_txyz: np.ndarray,
+            *,
+            name: str = "T",
+            frame_from: ReferenceFrame | None = None,
+            frame_to: ReferenceFrame | None = None,
+    ):
+        """Creates a Transform object from a 7-element array.
+
+        Args:
+            txyz_qwxyz (np.ndarray[7]):
+                Array containing the position and orientation of the transform.
+            degrees (bool): Defaults to False.
+                If True, the orientation is in degrees.
+
+        Returns:
+            Transform:
+                Transform object created from the position and orientation.
+        """
+
+        position = qwxyz_txyz[..., 4:]
+        quat = qwxyz_txyz[..., :4]
+        quat = quat[..., [1, 2, 3, 0]]
+        orientation = Rotation.from_quat(quat)
+        
+        return cls(
+            position=position,
+            orientation=orientation,
+            name=name,
+            frame_from=frame_from,
+            frame_to=frame_to,
+        )
+    
+    def as_se3(
+        self,
+    ) -> np.ndarray:
+        """Returns the transformation as a 7-element array.
+
+        Returns:
+            np.ndarray[7]:
+                Array containing the position and orientation of the transform.
+        """
+        rot_quat = self.orientation.as_quat()
+        rot_quat = rot_quat[..., [1, 2, 3, 0]]
+        tra = self.position
+
+        return np.concatenate([rot_quat, tra])
+        
 
     @property
     def position(
@@ -214,6 +265,18 @@ class Transform:
 
         return self._frame_from
     
+    @frame_from.setter
+    def frame_from(
+        self,
+        frame: ReferenceFrame,
+    ):
+        """Sets the origin reference frame of the transformation."""
+
+        if not isinstance(frame, ReferenceFrame):
+            raise TypeError("frame_from must be a ReferenceFrame object")
+        
+        self._frame_from = frame
+    
     @property
     def frame_to(
         self,
@@ -221,6 +284,18 @@ class Transform:
         """Returns the target reference frame of the transformation."""
 
         return self._frame_to
+    
+    @frame_to.setter
+    def frame_to(
+        self,
+        frame: ReferenceFrame,
+    ):
+        """Sets the target reference frame of the transformation."""
+
+        if not isinstance(frame, ReferenceFrame):
+            raise TypeError("frame_to must be a ReferenceFrame object")
+        
+        self._frame_to = frame
     
     def _build_orientation_matrix(
         self,
